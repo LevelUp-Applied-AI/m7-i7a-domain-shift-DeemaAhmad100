@@ -13,16 +13,27 @@ make smoke                 # CI substitute model on 5-row fixture
 make apply                 # your real model on full 1,033-row tech-news corpus
 ```
 
-## TODO for learner — fill these in before submitting
+## Model and Reproducibility
 
-- **Hugging Face Hub model URL:** _(paste your HF Hub model URL here, e.g. `https://huggingface.co/<your-username>/m7-app-review-sentiment`)_
-- **Reproducibility command:** `cp .env.example .env` (set MODEL_HUB_ID), then `make apply`.
-- **What the model was trained on and why we're applying it here:**
-  _(1–2 paragraphs from the learner — what the app-review sentiment model was trained on, why we're testing it on tech / entertainment news, what we expect to learn about domain shift)_
+- **Hugging Face Hub model URL:** `https://huggingface.co/Deema100/m7-app-review-sentiment`
+- **Reproducibility command:** 
+  ```bash
+  cp .env.example .env
+  # Edit .env and set MODEL_HUB_ID=Deema100/m7-app-review-sentiment
+  make apply
+  ```
+
+## Domain-Shift Analysis
+
+The sentiment classifier in this repository was fine-tuned on app store reviews—short, opinionated texts written by users evaluating consumer software. These reviews typically exhibit strong sentiment signals: explicitly negative language for poor performance, glowing praise for quality, and mixed feedback for mediocre experiences. The training data vocabulary and context patterns are deeply rooted in the application review domain.
+
+We now apply this app-review classifier to a corpus of tech and entertainment news articles—longer, more formal prose written by journalists covering technology trends, product announcements, and industry analysis. News articles employ different linguistic conventions, more nuanced sentiment expression, and subject matter (companies, markets, technical details) distinct from individual user experiences. This domain mismatch provides a natural test of model robustness and reveals whether the classifier has learned domain-specific artifacts rather than generalizable sentiment patterns.
+
+The analysis measures prediction distribution, confidence calibration, and qualitative failure modes to quantify domain shift. We expect the model to show lower confidence, polarized class predictions, and systematic misclassification on neutral or complex articles where formal news language diverges from app-review style.
 
 ## Submission
 
-Open a PR from `integration-7a-domain-shift` into `main`. Paste the PR URL into TalentLMS → Module 7 → Integration Task 7A.
+Open a PR from `integration-7a-domain-shift` into `main`. Paste the PR URL into TalentLMS → Module 7 → Integration Task 7A. All tests must pass and both `domain-shift-analysis.md` and `README.md` must be complete.
 
 ---
 
